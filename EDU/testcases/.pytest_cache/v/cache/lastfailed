@@ -1,6 +1,0 @@
-{
-  "test_invest.py::TestInvest::test_invest_success": true,
-  "test_login.py::TestLogin::test_login_success": true,
-  "test_login.py::TestLogin::test_login_wrongPasswd": true,
-  "test_searchschollroll.py::TestSearchSchoolRoll::()::test_searchschoolroll": true
-}
