@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Test Report</title>
+    <link href="assets/style.css" rel="stylesheet" type="text/css"/></head>
+  <body onLoad="init()">
+    <script>/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+
+function toArray(iter) {
+    if (iter === null) {
+        return null;
+    }
+    return Array.prototype.slice.call(iter);
+}
+
+function find(selector, elem) {
+    if (!elem) {
+        elem = document;
+    }
+    return elem.querySelector(selector);
+}
+
+function find_all(selector, elem) {
+    if (!elem) {
+        elem = document;
+    }
+    return toArray(elem.querySelectorAll(selector));
+}
+
+function sort_column(elem) {
+    toggle_sort_states(elem);
+    var colIndex = toArray(elem.parentNode.childNodes).indexOf(elem);
+    var key;
+    if (elem.classList.contains('numeric')) {
+        key = key_num;
+    } else if (elem.classList.contains('result')) {
+        key = key_result;
+    } else {
+        key = key_alpha;
+    }
+    sort_table(elem, key(colIndex));
+}
+
+function show_all_extras() {
+    find_all('.col-result').forEach(show_extras);
+}
+
+function hide_all_extras() {
+    find_all('.col-result').forEach(hide_extras);
+}
+
+function show_extras(colresult_elem) {
+    var extras = colresult_elem.parentNode.nextElementSibling;
+    var expandcollapse = colresult_elem.firstElementChild;
+    extras.classList.remove("collapsed");
+    expandcollapse.classList.remove("expander");
+    expandcollapse.classList.add("collapser");
+}
+
+function hide_extras(colresult_elem) {
+    var extras = colresult_elem.parentNode.nextElementSibling;
+    var expandcollapse = colresult_elem.firstElementChild;
+    extras.classList.add("collapsed");
+    expandcollapse.classList.remove("collapser");
+    expandcollapse.classList.add("expander");
+}
+
+function show_filters() {
+    var filter_items = document.getElementsByClassName('filter');
+    for (var i = 0; i < filter_items.length; i++)
+        filter_items[i].hidden = false;
+}
+
+function add_collapse() {
+    // Add links for show/hide all
+    var resulttable = find('table#results-table');
+    var showhideall = document.createElement("p");
+    showhideall.innerHTML = '<a href="javascript:show_all_extras()">Show all details</a> / ' +
+                            '<a href="javascript:hide_all_extras()">Hide all details</a>';
+    resulttable.parentElement.insertBefore(showhideall, resulttable);
+
+    // Add show/hide link to each result
+    find_all('.col-result').forEach(function(elem) {
+        var collapsed = get_query_parameter('collapsed') || 'Passed';
+        var extras = elem.parentNode.nextElementSibling;
+        var expandcollapse = document.createElement("span");
+        if (collapsed.includes(elem.innerHTML)) {
+            extras.classList.add("collapsed");
+            expandcollapse.classList.add("expander");
+        } else {
+            expandcollapse.classList.add("collapser");
+        }
+        elem.appendChild(expandcollapse);
+
+        elem.addEventListener("click", function(event) {
+            if (event.currentTarget.parentNode.nextElementSibling.classList.contains("collapsed")) {
+                show_extras(event.currentTarget);
+            } else {
+                hide_extras(event.currentTarget);
+            }
+        });
+    })
+}
+
+function get_query_parameter(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
+function init () {
+    reset_sort_headers();
+
+    add_collapse();
+
+    show_filters();
+
+    toggle_sort_states(find('.initial-sort'));
+
+    find_all('.sortable').forEach(function(elem) {
+        elem.addEventListener("click",
+                              function(event) {
+                                  sort_column(elem);
+                              }, false)
+    });
+
+};
+
+function sort_table(clicked, key_func) {
+    var rows = find_all('.results-table-row');
+    var reversed = !clicked.classList.contains('asc');
+    var sorted_rows = sort(rows, key_func, reversed);
+    /* Whole table is removed here because browsers acts much slower
+     * when appending existing elements.
+     */
+    var thead = document.getElementById("results-table-head");
+    document.getElementById('results-table').remove();
+    var parent = document.createElement("table");
+    parent.id = "results-table";
+    parent.appendChild(thead);
+    sorted_rows.forEach(function(elem) {
+        parent.appendChild(elem);
+    });
+    document.getElementsByTagName("BODY")[0].appendChild(parent);
+}
+
+function sort(items, key_func, reversed) {
+    var sort_array = items.map(function(item, i) {
+        return [key_func(item), i];
+    });
+    var multiplier = reversed ? -1 : 1;
+
+    sort_array.sort(function(a, b) {
+        var key_a = a[0];
+        var key_b = b[0];
+        return multiplier * (key_a >= key_b ? 1 : -1);
+    });
+
+    return sort_array.map(function(item) {
+        var index = item[1];
+        return items[index];
+    });
+}
+
+function key_alpha(col_index) {
+    return function(elem) {
+        return elem.childNodes[1].childNodes[col_index].firstChild.data.toLowerCase();
+    };
+}
+
+function key_num(col_index) {
+    return function(elem) {
+        return parseFloat(elem.childNodes[1].childNodes[col_index].firstChild.data);
+    };
+}
+
+function key_result(col_index) {
+    return function(elem) {
+        var strings = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed',
+                       'Skipped', 'Passed'];
+        return strings.indexOf(elem.childNodes[1].childNodes[col_index].firstChild.data);
+    };
+}
+
+function reset_sort_headers() {
+    find_all('.sort-icon').forEach(function(elem) {
+        elem.parentNode.removeChild(elem);
+    });
+    find_all('.sortable').forEach(function(elem) {
+        var icon = document.createElement("div");
+        icon.className = "sort-icon";
+        icon.textContent = "vvv";
+        elem.insertBefore(icon, elem.firstChild);
+        elem.classList.remove("desc", "active");
+        elem.classList.add("asc", "inactive");
+    });
+}
+
+function toggle_sort_states(elem) {
+    //if active, toggle between asc and desc
+    if (elem.classList.contains('active')) {
+        elem.classList.toggle('asc');
+        elem.classList.toggle('desc');
+    }
+
+    //if inactive, reset all other functions and add ascending active
+    if (elem.classList.contains('inactive')) {
+        reset_sort_headers();
+        elem.classList.remove('inactive');
+        elem.classList.add('active');
+    }
+}
+
+function is_all_rows_hidden(value) {
+  return value.hidden == false;
+}
+
+function filter_table(elem) {
+    var outcome_att = "data-test-result";
+    var outcome = elem.getAttribute(outcome_att);
+    class_outcome = outcome + " results-table-row";
+    var outcome_rows = document.getElementsByClassName(class_outcome);
+
+    for(var i = 0; i < outcome_rows.length; i++){
+        outcome_rows[i].hidden = !elem.checked;
+    }
+
+    var rows = find_all('.results-table-row').filter(is_all_rows_hidden);
+    var all_rows_hidden = rows.length == 0 ? true : false;
+    var not_found_message = document.getElementById("not-found-message");
+    not_found_message.hidden = !all_rows_hidden;
+}
+</script>
+    <h1>pytest_result.html</h1>
+    <p>Report generated on 19-Dec-2018 at 14:36:51 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
+    <h2>Environment</h2>
+    <table id="environment">
+      <tr>
+        <td>JAVA_HOME</td>
+        <td>C:\Program Files\Java\jdk1.8.0_102</td></tr>
+      <tr>
+        <td>Packages</td>
+        <td>{&apos;py&apos;: &apos;1.6.0&apos;, &apos;pytest&apos;: &apos;3.8.0&apos;, &apos;pluggy&apos;: &apos;0.7.1&apos;}</td></tr>
+      <tr>
+        <td>Platform</td>
+        <td>Windows-7-6.1.7600-SP0</td></tr>
+      <tr>
+        <td>Plugins</td>
+        <td>{&apos;metadata&apos;: &apos;1.7.0&apos;, &apos;html&apos;: &apos;1.19.0&apos;}</td></tr>
+      <tr>
+        <td>Python</td>
+        <td>3.4.4</td></tr></table>
+    <h2>Summary</h2>
+    <p>2 tests ran in 95.89 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">2 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <h2>Results</h2>
+    <table id="results-table">
+      <thead id="results-table-head">
+        <tr>
+          <th class="sortable result initial-sort" col="result">Result</th>
+          <th class="sortable" col="name">Test</th>
+          <th class="sortable numeric" col="duration">Duration</th>
+          <th>Links</th></tr>
+        <tr hidden="true" id="not-found-message">
+          <th colspan="4">No results found. Try to check the filters</th></tr></thead>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">testcases/test_addschoolroll.py::TestAddSchoolRoll::()::test_saveaddstudent[inputschoolroll0]</td>
+          <td class="col-duration">27.56</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">---------------------------- Captured stderr setup -----------------------------<br/>Wed, 19 Dec 2018 14:35:15-INFO-conftest.py-login_driver-[ line:15-=====用例前置：初始化浏览器会话，登陆教务管理系统=======
+Wed, 19 Dec 2018 14:35:33-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：txtUserName，开始等待时间：2018-12-19 14:35:33.085344，等待结束时间2018-12-19 14:35:33.222352，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:33-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:35:33-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:33-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:35:33-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:34-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
+Wed, 19 Dec 2018 14:35:34-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+------------------------------ Captured log setup ------------------------------<br/>conftest.py                 15 INFO     =====用例前置：初始化浏览器会话，登陆教务管理系统=======
+basepage.py                 33 INFO     等待元素可见：txtUserName，开始等待时间：2018-12-19 14:35:33.085344，等待结束时间2018-12-19 14:35:33.222352，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                138 INFO     执行元素点击操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。----------------------------- Captured stdout call -----------------------------<br/>aaaaaa
+bbbbbbbb
+[[&#x27;2017010002&#x27;]]
+[[&#x27;2017010002&#x27;]]
+----------------------------- Captured stderr call -----------------------------<br/>Wed, 19 Dec 2018 14:35:37-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：.logo-mini&gt;img，开始等待时间：2018-12-19 14:35:35.392476，等待结束时间2018-12-19 14:35:37.579601，等待时间间隔：86397
+Wed, 19 Dec 2018 14:35:37-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
+Wed, 19 Dec 2018 14:35:37-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:38-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：#vuewrap&gt;aside&gt;div&gt;section&gt;ul&gt;li:nth-child(1)&gt;a，开始等待时间：2018-12-19 14:35:37.925621，等待结束时间2018-12-19 14:35:38.360646，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:38-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
+Wed, 19 Dec 2018 14:35:38-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:39-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：div.listwrap&gt;div:nth-child(1)&gt;ul&gt;li:nth-child(1)&gt;a，开始等待时间：2018-12-19 14:35:39.031684，等待结束时间2018-12-19 14:35:39.211695，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:39-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
+Wed, 19 Dec 2018 14:35:39-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:39-INFO-basepage.py-switch_iframe_byname-[ line:82-通过iframe的名字{0}查找iframe
+Wed, 19 Dec 2018 14:35:42-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：FirstName，开始等待时间：2018-12-19 14:35:42.527884，等待结束时间2018-12-19 14:35:42.628890，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:42-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:35:42-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:42-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：LastName，开始等待时间：2018-12-19 14:35:42.855903，等待结束时间2018-12-19 14:35:42.987911，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:42-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:35:42-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:43-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：FormerName，开始等待时间：2018-12-19 14:35:43.253926，等待结束时间2018-12-19 14:35:43.394934，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:43-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:35:43-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:43-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlGender，开始等待时间：2018-12-19 14:35:43.664949，等待结束时间2018-12-19 14:35:43.791957，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:43-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:35:43-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:44-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：EngFamilyName，开始等待时间：2018-12-19 14:35:44.103974，等待结束时间2018-12-19 14:35:44.239982，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:44-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:35:44-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:44-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：EngFirstName，开始等待时间：2018-12-19 14:35:44.476996，等待结束时间2018-12-19 14:35:44.637005，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:44-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:35:44-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:45-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：Birth，开始等待时间：2018-12-19 14:35:44.987025，等待结束时间2018-12-19 14:35:45.116032，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:45-INFO-basepage.py-remove_attribute-[ line:156-移除元素属性操作
+Wed, 19 Dec 2018 14:35:45-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:35:45-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:45-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlCountryCode，开始等待时间：2018-12-19 14:35:45.623061，等待结束时间2018-12-19 14:35:45.722067，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:45-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:35:45-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:46-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlNationality，开始等待时间：2018-12-19 14:35:45.910078，等待结束时间2018-12-19 14:35:46.012084，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:46-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:35:46-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:46-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlPoliticalStatus，开始等待时间：2018-12-19 14:35:46.180093，等待结束时间2018-12-19 14:35:46.293100，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:46-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:35:46-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:46-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：NativePlace，开始等待时间：2018-12-19 14:35:46.628119，等待结束时间2018-12-19 14:35:46.803129，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:46-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:35:46-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:47-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlCardType，开始等待时间：2018-12-19 14:35:47.209152，等待结束时间2018-12-19 14:35:47.326159，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:47-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:35:47-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:47-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：CardNo，开始等待时间：2018-12-19 14:35:47.521170，等待结束时间2018-12-19 14:35:47.657178，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:47-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:35:47-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:48-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：VisaEffectiveDate，开始等待时间：2018-12-19 14:35:48.459223，等待结束时间2018-12-19 14:35:48.568230，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:48-INFO-basepage.py-remove_attribute-[ line:156-移除元素属性操作
+Wed, 19 Dec 2018 14:35:48-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:35:48-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:49-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlMarriage，开始等待时间：2018-12-19 14:35:49.105260，等待结束时间2018-12-19 14:35:49.216267，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:49-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:35:49-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:49-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlNativeLanguage，开始等待时间：2018-12-19 14:35:49.499283，等待结束时间2018-12-19 14:35:49.625290，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:49-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:35:49-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:50-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlMainDarin，开始等待时间：2018-12-19 14:35:50.012312，等待结束时间2018-12-19 14:35:50.141320，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:50-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:35:50-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:50-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：SchoolRollNumber，开始等待时间：2018-12-19 14:35:50.353332，等待结束时间2018-12-19 14:35:50.469338，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:50-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:35:50-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:51-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlDepartment，开始等待时间：2018-12-19 14:35:50.945366，等待结束时间2018-12-19 14:35:51.060372，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:51-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:35:51-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:51-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlGrade，开始等待时间：2018-12-19 14:35:51.358389，等待结束时间2018-12-19 14:35:51.510398，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:51-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:35:51-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:51-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlTrainLevel，开始等待时间：2018-12-19 14:35:51.772413，等待结束时间2018-12-19 14:35:51.949423，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:51-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:35:51-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:52-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：SchoolSystem，开始等待时间：2018-12-19 14:35:52.257441，等待结束时间2018-12-19 14:35:52.366447，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:52-INFO-basepage.py-remove_attribute-[ line:156-移除元素属性操作
+Wed, 19 Dec 2018 14:35:52-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:35:52-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:52-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlProgram，开始等待时间：2018-12-19 14:35:52.616461，等待结束时间2018-12-19 14:35:52.736468，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:52-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:35:52-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:53-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlStudentType，开始等待时间：2018-12-19 14:35:53.048486，等待结束时间2018-12-19 14:35:53.174493，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:53-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:35:53-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:53-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlStudentType，开始等待时间：2018-12-19 14:35:53.452509，等待结束时间2018-12-19 14:35:53.544514，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:53-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:35:53-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:53-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlDistributary，开始等待时间：2018-12-19 14:35:53.802529，等待结束时间2018-12-19 14:35:53.918536，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:53-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:35:53-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:54-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlEnterGrade，开始等待时间：2018-12-19 14:35:54.098546，等待结束时间2018-12-19 14:35:54.199552，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:54-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:35:54-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:54-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：EnterDate，开始等待时间：2018-12-19 14:35:54.480568，等待结束时间2018-12-19 14:35:54.588574，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:54-INFO-basepage.py-remove_attribute-[ line:156-移除元素属性操作
+Wed, 19 Dec 2018 14:35:54-INFO-basepage.py-clear_input-[ line:176-清除文本框内容操作。
+Wed, 19 Dec 2018 14:35:54-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:54-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:35:54-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:55-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：EndDate，开始等待时间：2018-12-19 14:35:55.294614，等待结束时间2018-12-19 14:35:55.399620，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:55-INFO-basepage.py-remove_attribute-[ line:156-移除元素属性操作
+Wed, 19 Dec 2018 14:35:55-INFO-basepage.py-clear_input-[ line:176-清除文本框内容操作。
+Wed, 19 Dec 2018 14:35:55-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:55-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:35:55-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:56-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：txtStudentExamCode，开始等待时间：2018-12-19 14:35:56.058658，等待结束时间2018-12-19 14:35:56.166664，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:56-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:35:56-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:56-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlStudentSourseType，开始等待时间：2018-12-19 14:35:56.711695，等待结束时间2018-12-19 14:35:56.821702，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:56-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:35:56-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:57-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlSourceArea，开始等待时间：2018-12-19 14:35:57.004712，等待结束时间2018-12-19 14:35:57.112718，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:57-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:35:57-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:57-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：//input[@value=&#x27;暂存&#x27;]，开始等待时间：2018-12-19 14:35:57.268727，等待结束时间2018-12-19 14:35:57.418736，等待时间间隔：86399
+Wed, 19 Dec 2018 14:35:57-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
+Wed, 19 Dec 2018 14:35:57-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:35:58-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：//span[text()=&#x27;确定&#x27;]，开始等待时间：2018-12-19 14:35:57.845760，等待结束时间2018-12-19 14:35:58.946823，等待时间间隔：86398
+Wed, 19 Dec 2018 14:35:58-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
+Wed, 19 Dec 2018 14:35:58-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:02-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：//table[@class=&#x27;TableCss&#x27;]，开始等待时间：2018-12-19 14:36:02.284014，等待结束时间2018-12-19 14:36:02.383020，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:02-INFO-basepage.py-get_table-[ line:200-获取表格数据操作。
+Wed, 19 Dec 2018 14:36:02-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：//table[@class=&#x27;TableCss&#x27;]，开始等待时间：2018-12-19 14:36:02.383020，等待结束时间2018-12-19 14:36:02.468025，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:02-INFO-basepage.py-get_table-[ line:200-获取表格数据操作。
+Wed, 19 Dec 2018 14:36:02-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：//table[@class=&#x27;TableCss&#x27;]，开始等待时间：2018-12-19 14:36:02.714039，等待结束时间2018-12-19 14:36:02.786043，等待时间间隔：86399
+------------------------------ Captured log call -------------------------------<br/>basepage.py                 33 INFO     等待元素可见：.logo-mini&gt;img，开始等待时间：2018-12-19 14:35:35.392476，等待结束时间2018-12-19 14:35:37.579601，等待时间间隔：86397
+basepage.py                138 INFO     执行元素点击操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：#vuewrap&gt;aside&gt;div&gt;section&gt;ul&gt;li:nth-child(1)&gt;a，开始等待时间：2018-12-19 14:35:37.925621，等待结束时间2018-12-19 14:35:38.360646，等待时间间隔：86399
+basepage.py                138 INFO     执行元素点击操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：div.listwrap&gt;div:nth-child(1)&gt;ul&gt;li:nth-child(1)&gt;a，开始等待时间：2018-12-19 14:35:39.031684，等待结束时间2018-12-19 14:35:39.211695，等待时间间隔：86399
+basepage.py                138 INFO     执行元素点击操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 82 INFO     通过iframe的名字{0}查找iframe
+basepage.py                 33 INFO     等待元素可见：FirstName，开始等待时间：2018-12-19 14:35:42.527884，等待结束时间2018-12-19 14:35:42.628890，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：LastName，开始等待时间：2018-12-19 14:35:42.855903，等待结束时间2018-12-19 14:35:42.987911，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：FormerName，开始等待时间：2018-12-19 14:35:43.253926，等待结束时间2018-12-19 14:35:43.394934，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlGender，开始等待时间：2018-12-19 14:35:43.664949，等待结束时间2018-12-19 14:35:43.791957，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：EngFamilyName，开始等待时间：2018-12-19 14:35:44.103974，等待结束时间2018-12-19 14:35:44.239982，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：EngFirstName，开始等待时间：2018-12-19 14:35:44.476996，等待结束时间2018-12-19 14:35:44.637005，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：Birth，开始等待时间：2018-12-19 14:35:44.987025，等待结束时间2018-12-19 14:35:45.116032，等待时间间隔：86399
+basepage.py                156 INFO     移除元素属性操作
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlCountryCode，开始等待时间：2018-12-19 14:35:45.623061，等待结束时间2018-12-19 14:35:45.722067，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlNationality，开始等待时间：2018-12-19 14:35:45.910078，等待结束时间2018-12-19 14:35:46.012084，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlPoliticalStatus，开始等待时间：2018-12-19 14:35:46.180093，等待结束时间2018-12-19 14:35:46.293100，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：NativePlace，开始等待时间：2018-12-19 14:35:46.628119，等待结束时间2018-12-19 14:35:46.803129，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlCardType，开始等待时间：2018-12-19 14:35:47.209152，等待结束时间2018-12-19 14:35:47.326159，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：CardNo，开始等待时间：2018-12-19 14:35:47.521170，等待结束时间2018-12-19 14:35:47.657178，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：VisaEffectiveDate，开始等待时间：2018-12-19 14:35:48.459223，等待结束时间2018-12-19 14:35:48.568230，等待时间间隔：86399
+basepage.py                156 INFO     移除元素属性操作
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlMarriage，开始等待时间：2018-12-19 14:35:49.105260，等待结束时间2018-12-19 14:35:49.216267，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlNativeLanguage，开始等待时间：2018-12-19 14:35:49.499283，等待结束时间2018-12-19 14:35:49.625290，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlMainDarin，开始等待时间：2018-12-19 14:35:50.012312，等待结束时间2018-12-19 14:35:50.141320，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：SchoolRollNumber，开始等待时间：2018-12-19 14:35:50.353332，等待结束时间2018-12-19 14:35:50.469338，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlDepartment，开始等待时间：2018-12-19 14:35:50.945366，等待结束时间2018-12-19 14:35:51.060372，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlGrade，开始等待时间：2018-12-19 14:35:51.358389，等待结束时间2018-12-19 14:35:51.510398，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlTrainLevel，开始等待时间：2018-12-19 14:35:51.772413，等待结束时间2018-12-19 14:35:51.949423，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：SchoolSystem，开始等待时间：2018-12-19 14:35:52.257441，等待结束时间2018-12-19 14:35:52.366447，等待时间间隔：86399
+basepage.py                156 INFO     移除元素属性操作
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlProgram，开始等待时间：2018-12-19 14:35:52.616461，等待结束时间2018-12-19 14:35:52.736468，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlStudentType，开始等待时间：2018-12-19 14:35:53.048486，等待结束时间2018-12-19 14:35:53.174493，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlStudentType，开始等待时间：2018-12-19 14:35:53.452509，等待结束时间2018-12-19 14:35:53.544514，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlDistributary，开始等待时间：2018-12-19 14:35:53.802529，等待结束时间2018-12-19 14:35:53.918536，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlEnterGrade，开始等待时间：2018-12-19 14:35:54.098546，等待结束时间2018-12-19 14:35:54.199552，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：EnterDate，开始等待时间：2018-12-19 14:35:54.480568，等待结束时间2018-12-19 14:35:54.588574，等待时间间隔：86399
+basepage.py                156 INFO     移除元素属性操作
+basepage.py                176 INFO     清除文本框内容操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：EndDate，开始等待时间：2018-12-19 14:35:55.294614，等待结束时间2018-12-19 14:35:55.399620，等待时间间隔：86399
+basepage.py                156 INFO     移除元素属性操作
+basepage.py                176 INFO     清除文本框内容操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：txtStudentExamCode，开始等待时间：2018-12-19 14:35:56.058658，等待结束时间2018-12-19 14:35:56.166664，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlStudentSourseType，开始等待时间：2018-12-19 14:35:56.711695，等待结束时间2018-12-19 14:35:56.821702，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlSourceArea，开始等待时间：2018-12-19 14:35:57.004712，等待结束时间2018-12-19 14:35:57.112718，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：//input[@value=&#x27;暂存&#x27;]，开始等待时间：2018-12-19 14:35:57.268727，等待结束时间2018-12-19 14:35:57.418736，等待时间间隔：86399
+basepage.py                138 INFO     执行元素点击操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：//span[text()=&#x27;确定&#x27;]，开始等待时间：2018-12-19 14:35:57.845760，等待结束时间2018-12-19 14:35:58.946823，等待时间间隔：86398
+basepage.py                138 INFO     执行元素点击操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：//table[@class=&#x27;TableCss&#x27;]，开始等待时间：2018-12-19 14:36:02.284014，等待结束时间2018-12-19 14:36:02.383020，等待时间间隔：86399
+basepage.py                200 INFO     获取表格数据操作。
+basepage.py                 33 INFO     等待元素可见：//table[@class=&#x27;TableCss&#x27;]，开始等待时间：2018-12-19 14:36:02.383020，等待结束时间2018-12-19 14:36:02.468025，等待时间间隔：86399
+basepage.py                200 INFO     获取表格数据操作。
+basepage.py                 33 INFO     等待元素可见：//table[@class=&#x27;TableCss&#x27;]，开始等待时间：2018-12-19 14:36:02.714039，等待结束时间2018-12-19 14:36:02.786043，等待时间间隔：86399</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">testcases/test_addschoolroll.py::TestAddSchoolRoll::()::test_saveaddstudent[inputschoolroll1]</td>
+          <td class="col-duration">26.55</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">---------------------------- Captured stderr setup -----------------------------<br/>Wed, 19 Dec 2018 14:36:06-INFO-conftest.py-login_driver-[ line:15-=====用例前置：初始化浏览器会话，登陆教务管理系统=======
+Wed, 19 Dec 2018 14:36:19-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：txtUserName，开始等待时间：2018-12-19 14:36:18.923966，等待结束时间2018-12-19 14:36:19.106976，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:19-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:36:19-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:19-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:36:19-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:19-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
+Wed, 19 Dec 2018 14:36:19-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+------------------------------ Captured log setup ------------------------------<br/>conftest.py                 15 INFO     =====用例前置：初始化浏览器会话，登陆教务管理系统=======
+basepage.py                 33 INFO     等待元素可见：txtUserName，开始等待时间：2018-12-19 14:36:18.923966，等待结束时间2018-12-19 14:36:19.106976，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                138 INFO     执行元素点击操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。----------------------------- Captured stdout call -----------------------------<br/>aaaaaa
+bbbbbbbb
+[[&#x27;2017010002&#x27;], [&#x27;2017010003&#x27;]]
+[[&#x27;2017010002&#x27;], [&#x27;2017010003&#x27;]]
+----------------------------- Captured stderr call -----------------------------<br/>Wed, 19 Dec 2018 14:36:22-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：.logo-mini&gt;img，开始等待时间：2018-12-19 14:36:21.158094，等待结束时间2018-12-19 14:36:22.899193，等待时间间隔：86398
+Wed, 19 Dec 2018 14:36:22-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
+Wed, 19 Dec 2018 14:36:22-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:23-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：#vuewrap&gt;aside&gt;div&gt;section&gt;ul&gt;li:nth-child(1)&gt;a，开始等待时间：2018-12-19 14:36:23.351219，等待结束时间2018-12-19 14:36:23.809245，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:23-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
+Wed, 19 Dec 2018 14:36:23-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:24-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：div.listwrap&gt;div:nth-child(1)&gt;ul&gt;li:nth-child(1)&gt;a，开始等待时间：2018-12-19 14:36:24.379278，等待结束时间2018-12-19 14:36:24.612291，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:24-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
+Wed, 19 Dec 2018 14:36:24-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:24-INFO-basepage.py-switch_iframe_byname-[ line:82-通过iframe的名字{0}查找iframe
+Wed, 19 Dec 2018 14:36:28-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：FirstName，开始等待时间：2018-12-19 14:36:28.037487，等待结束时间2018-12-19 14:36:28.138493，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:28-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:36:28-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:28-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：LastName，开始等待时间：2018-12-19 14:36:28.352505，等待结束时间2018-12-19 14:36:28.470512，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:28-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:36:28-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:28-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：FormerName，开始等待时间：2018-12-19 14:36:28.671523，等待结束时间2018-12-19 14:36:28.809531，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:28-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:36:28-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:29-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlGender，开始等待时间：2018-12-19 14:36:29.047545，等待结束时间2018-12-19 14:36:29.190553，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:29-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:36:29-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:29-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：EngFamilyName，开始等待时间：2018-12-19 14:36:29.503571，等待结束时间2018-12-19 14:36:29.635579，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:29-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:36:29-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:30-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：EngFirstName，开始等待时间：2018-12-19 14:36:29.939596，等待结束时间2018-12-19 14:36:30.079604，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:30-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:36:30-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:30-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：Birth，开始等待时间：2018-12-19 14:36:30.304617，等待结束时间2018-12-19 14:36:30.440625，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:30-INFO-basepage.py-remove_attribute-[ line:156-移除元素属性操作
+Wed, 19 Dec 2018 14:36:30-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:36:30-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:31-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlCountryCode，开始等待时间：2018-12-19 14:36:30.962655，等待结束时间2018-12-19 14:36:31.114663，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:31-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:36:31-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:31-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlNationality，开始等待时间：2018-12-19 14:36:31.325675，等待结束时间2018-12-19 14:36:31.463683，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:31-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:36:31-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:31-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlPoliticalStatus，开始等待时间：2018-12-19 14:36:31.678695，等待结束时间2018-12-19 14:36:31.803703，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:31-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:36:31-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:32-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：NativePlace，开始等待时间：2018-12-19 14:36:32.360734，等待结束时间2018-12-19 14:36:32.586747，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:32-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:36:32-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:33-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlCardType，开始等待时间：2018-12-19 14:36:32.954768，等待结束时间2018-12-19 14:36:33.062775，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:33-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:36:33-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:33-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：CardNo，开始等待时间：2018-12-19 14:36:33.229784，等待结束时间2018-12-19 14:36:33.347791，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:33-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:36:33-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:34-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：VisaEffectiveDate，开始等待时间：2018-12-19 14:36:34.051831，等待结束时间2018-12-19 14:36:34.159837，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:34-INFO-basepage.py-remove_attribute-[ line:156-移除元素属性操作
+Wed, 19 Dec 2018 14:36:34-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:36:34-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:34-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlMarriage，开始等待时间：2018-12-19 14:36:34.613863，等待结束时间2018-12-19 14:36:34.704869，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:34-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:36:34-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:35-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlNativeLanguage，开始等待时间：2018-12-19 14:36:34.959883，等待结束时间2018-12-19 14:36:35.097891，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:35-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:36:35-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:35-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlMainDarin，开始等待时间：2018-12-19 14:36:35.363906，等待结束时间2018-12-19 14:36:35.468912，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:35-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:36:35-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:35-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：SchoolRollNumber，开始等待时间：2018-12-19 14:36:35.629921，等待结束时间2018-12-19 14:36:35.735928，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:35-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:36:35-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:36-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlDepartment，开始等待时间：2018-12-19 14:36:36.206954，等待结束时间2018-12-19 14:36:36.307960，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:36-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:36:36-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:36-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlGrade，开始等待时间：2018-12-19 14:36:36.593977，等待结束时间2018-12-19 14:36:36.750986，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:36-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:36:36-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:37-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlTrainLevel，开始等待时间：2018-12-19 14:36:37.014001，等待结束时间2018-12-19 14:36:37.132007，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:37-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:36:37-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:37-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：SchoolSystem，开始等待时间：2018-12-19 14:36:37.396022，等待结束时间2018-12-19 14:36:37.501029，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:37-INFO-basepage.py-remove_attribute-[ line:156-移除元素属性操作
+Wed, 19 Dec 2018 14:36:37-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:36:37-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:37-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlProgram，开始等待时间：2018-12-19 14:36:37.723041，等待结束时间2018-12-19 14:36:37.856049，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:37-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:36:37-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:38-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlStudentType，开始等待时间：2018-12-19 14:36:38.195068，等待结束时间2018-12-19 14:36:38.321075，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:38-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:36:38-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:38-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlStudentType，开始等待时间：2018-12-19 14:36:38.609092，等待结束时间2018-12-19 14:36:38.691097，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:38-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:36:38-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:39-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlDistributary，开始等待时间：2018-12-19 14:36:38.943111，等待结束时间2018-12-19 14:36:39.048117，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:39-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:36:39-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:39-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlEnterGrade，开始等待时间：2018-12-19 14:36:39.212126，等待结束时间2018-12-19 14:36:39.309132，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:39-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:36:39-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:39-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：EnterDate，开始等待时间：2018-12-19 14:36:39.571147，等待结束时间2018-12-19 14:36:39.672153，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:39-INFO-basepage.py-remove_attribute-[ line:156-移除元素属性操作
+Wed, 19 Dec 2018 14:36:39-INFO-basepage.py-clear_input-[ line:176-清除文本框内容操作。
+Wed, 19 Dec 2018 14:36:39-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:39-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:36:39-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:40-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：EndDate，开始等待时间：2018-12-19 14:36:40.263186，等待结束时间2018-12-19 14:36:40.372193，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:40-INFO-basepage.py-remove_attribute-[ line:156-移除元素属性操作
+Wed, 19 Dec 2018 14:36:40-INFO-basepage.py-clear_input-[ line:176-清除文本框内容操作。
+Wed, 19 Dec 2018 14:36:40-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:40-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:36:40-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:41-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：txtStudentExamCode，开始等待时间：2018-12-19 14:36:40.963227，等待结束时间2018-12-19 14:36:41.130236，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:41-INFO-basepage.py-send_keys_element-[ line:237-执行元素输入操作。
+Wed, 19 Dec 2018 14:36:41-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:41-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlStudentSourseType，开始等待时间：2018-12-19 14:36:41.650266，等待结束时间2018-12-19 14:36:41.742271，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:41-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:36:41-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:41-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：ddlSourceArea，开始等待时间：2018-12-19 14:36:41.897280，等待结束时间2018-12-19 14:36:41.995286，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:41-INFO-basepage.py-select_element-[ line:255-下拉选择元素操作。
+Wed, 19 Dec 2018 14:36:41-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:42-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：//input[@value=&#x27;暂存&#x27;]，开始等待时间：2018-12-19 14:36:42.172296，等待结束时间2018-12-19 14:36:42.288302，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:42-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
+Wed, 19 Dec 2018 14:36:42-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:43-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：//span[text()=&#x27;确定&#x27;]，开始等待时间：2018-12-19 14:36:42.691325，等待结束时间2018-12-19 14:36:43.404366，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:43-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
+Wed, 19 Dec 2018 14:36:43-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Wed, 19 Dec 2018 14:36:46-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：//table[@class=&#x27;TableCss&#x27;]，开始等待时间：2018-12-19 14:36:46.842563，等待结束时间2018-12-19 14:36:46.941568，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:46-INFO-basepage.py-get_table-[ line:200-获取表格数据操作。
+Wed, 19 Dec 2018 14:36:47-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：//table[@class=&#x27;TableCss&#x27;]，开始等待时间：2018-12-19 14:36:46.942569，等待结束时间2018-12-19 14:36:47.021573，等待时间间隔：86399
+Wed, 19 Dec 2018 14:36:47-INFO-basepage.py-get_table-[ line:200-获取表格数据操作。
+Wed, 19 Dec 2018 14:36:47-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：//table[@class=&#x27;TableCss&#x27;]，开始等待时间：2018-12-19 14:36:47.346592，等待结束时间2018-12-19 14:36:47.437597，等待时间间隔：86399
+------------------------------ Captured log call -------------------------------<br/>basepage.py                 33 INFO     等待元素可见：.logo-mini&gt;img，开始等待时间：2018-12-19 14:36:21.158094，等待结束时间2018-12-19 14:36:22.899193，等待时间间隔：86398
+basepage.py                138 INFO     执行元素点击操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：#vuewrap&gt;aside&gt;div&gt;section&gt;ul&gt;li:nth-child(1)&gt;a，开始等待时间：2018-12-19 14:36:23.351219，等待结束时间2018-12-19 14:36:23.809245，等待时间间隔：86399
+basepage.py                138 INFO     执行元素点击操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：div.listwrap&gt;div:nth-child(1)&gt;ul&gt;li:nth-child(1)&gt;a，开始等待时间：2018-12-19 14:36:24.379278，等待结束时间2018-12-19 14:36:24.612291，等待时间间隔：86399
+basepage.py                138 INFO     执行元素点击操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 82 INFO     通过iframe的名字{0}查找iframe
+basepage.py                 33 INFO     等待元素可见：FirstName，开始等待时间：2018-12-19 14:36:28.037487，等待结束时间2018-12-19 14:36:28.138493，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：LastName，开始等待时间：2018-12-19 14:36:28.352505，等待结束时间2018-12-19 14:36:28.470512，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：FormerName，开始等待时间：2018-12-19 14:36:28.671523，等待结束时间2018-12-19 14:36:28.809531，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlGender，开始等待时间：2018-12-19 14:36:29.047545，等待结束时间2018-12-19 14:36:29.190553，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：EngFamilyName，开始等待时间：2018-12-19 14:36:29.503571，等待结束时间2018-12-19 14:36:29.635579，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：EngFirstName，开始等待时间：2018-12-19 14:36:29.939596，等待结束时间2018-12-19 14:36:30.079604，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：Birth，开始等待时间：2018-12-19 14:36:30.304617，等待结束时间2018-12-19 14:36:30.440625，等待时间间隔：86399
+basepage.py                156 INFO     移除元素属性操作
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlCountryCode，开始等待时间：2018-12-19 14:36:30.962655，等待结束时间2018-12-19 14:36:31.114663，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlNationality，开始等待时间：2018-12-19 14:36:31.325675，等待结束时间2018-12-19 14:36:31.463683，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlPoliticalStatus，开始等待时间：2018-12-19 14:36:31.678695，等待结束时间2018-12-19 14:36:31.803703，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：NativePlace，开始等待时间：2018-12-19 14:36:32.360734，等待结束时间2018-12-19 14:36:32.586747，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlCardType，开始等待时间：2018-12-19 14:36:32.954768，等待结束时间2018-12-19 14:36:33.062775，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：CardNo，开始等待时间：2018-12-19 14:36:33.229784，等待结束时间2018-12-19 14:36:33.347791，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：VisaEffectiveDate，开始等待时间：2018-12-19 14:36:34.051831，等待结束时间2018-12-19 14:36:34.159837，等待时间间隔：86399
+basepage.py                156 INFO     移除元素属性操作
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlMarriage，开始等待时间：2018-12-19 14:36:34.613863，等待结束时间2018-12-19 14:36:34.704869，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlNativeLanguage，开始等待时间：2018-12-19 14:36:34.959883，等待结束时间2018-12-19 14:36:35.097891，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlMainDarin，开始等待时间：2018-12-19 14:36:35.363906，等待结束时间2018-12-19 14:36:35.468912，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：SchoolRollNumber，开始等待时间：2018-12-19 14:36:35.629921，等待结束时间2018-12-19 14:36:35.735928，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlDepartment，开始等待时间：2018-12-19 14:36:36.206954，等待结束时间2018-12-19 14:36:36.307960，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlGrade，开始等待时间：2018-12-19 14:36:36.593977，等待结束时间2018-12-19 14:36:36.750986，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlTrainLevel，开始等待时间：2018-12-19 14:36:37.014001，等待结束时间2018-12-19 14:36:37.132007，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：SchoolSystem，开始等待时间：2018-12-19 14:36:37.396022，等待结束时间2018-12-19 14:36:37.501029，等待时间间隔：86399
+basepage.py                156 INFO     移除元素属性操作
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlProgram，开始等待时间：2018-12-19 14:36:37.723041，等待结束时间2018-12-19 14:36:37.856049，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlStudentType，开始等待时间：2018-12-19 14:36:38.195068，等待结束时间2018-12-19 14:36:38.321075，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlStudentType，开始等待时间：2018-12-19 14:36:38.609092，等待结束时间2018-12-19 14:36:38.691097，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlDistributary，开始等待时间：2018-12-19 14:36:38.943111，等待结束时间2018-12-19 14:36:39.048117，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlEnterGrade，开始等待时间：2018-12-19 14:36:39.212126，等待结束时间2018-12-19 14:36:39.309132，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：EnterDate，开始等待时间：2018-12-19 14:36:39.571147，等待结束时间2018-12-19 14:36:39.672153，等待时间间隔：86399
+basepage.py                156 INFO     移除元素属性操作
+basepage.py                176 INFO     清除文本框内容操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：EndDate，开始等待时间：2018-12-19 14:36:40.263186，等待结束时间2018-12-19 14:36:40.372193，等待时间间隔：86399
+basepage.py                156 INFO     移除元素属性操作
+basepage.py                176 INFO     清除文本框内容操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：txtStudentExamCode，开始等待时间：2018-12-19 14:36:40.963227，等待结束时间2018-12-19 14:36:41.130236，等待时间间隔：86399
+basepage.py                237 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlStudentSourseType，开始等待时间：2018-12-19 14:36:41.650266，等待结束时间2018-12-19 14:36:41.742271，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：ddlSourceArea，开始等待时间：2018-12-19 14:36:41.897280，等待结束时间2018-12-19 14:36:41.995286，等待时间间隔：86399
+basepage.py                255 INFO     下拉选择元素操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：//input[@value=&#x27;暂存&#x27;]，开始等待时间：2018-12-19 14:36:42.172296，等待结束时间2018-12-19 14:36:42.288302，等待时间间隔：86399
+basepage.py                138 INFO     执行元素点击操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：//span[text()=&#x27;确定&#x27;]，开始等待时间：2018-12-19 14:36:42.691325，等待结束时间2018-12-19 14:36:43.404366，等待时间间隔：86399
+basepage.py                138 INFO     执行元素点击操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                 33 INFO     等待元素可见：//table[@class=&#x27;TableCss&#x27;]，开始等待时间：2018-12-19 14:36:46.842563，等待结束时间2018-12-19 14:36:46.941568，等待时间间隔：86399
+basepage.py                200 INFO     获取表格数据操作。
+basepage.py                 33 INFO     等待元素可见：//table[@class=&#x27;TableCss&#x27;]，开始等待时间：2018-12-19 14:36:46.942569，等待结束时间2018-12-19 14:36:47.021573，等待时间间隔：86399
+basepage.py                200 INFO     获取表格数据操作。
+basepage.py                 33 INFO     等待元素可见：//table[@class=&#x27;TableCss&#x27;]，开始等待时间：2018-12-19 14:36:47.346592，等待结束时间2018-12-19 14:36:47.437597，等待时间间隔：86399</div></td></tr></tbody></table></body></html>

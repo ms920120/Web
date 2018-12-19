@@ -1,0 +1,4 @@
+{
+  "testcases/test_login.py::TestLogin::()::test_login_success[login_data0]": true,
+  "testcases/test_login.py::TestLogin::()::test_login_success[login_data1]": true
+}

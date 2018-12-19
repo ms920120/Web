@@ -1,0 +1,8 @@
+[
+  "testcases/test_addschoolroll.py::TestAddSchoolRoll::()::test_saveaddstudent[inputschoolroll0]",
+  "testcases/test_addschoolroll.py::TestAddSchoolRoll::()::test_saveaddstudent[inputschoolroll1]",
+  "testcases/test_addschoolroll.py::TestAddSchoolRoll::()::test_submitaddstudent",
+  "testcases/test_login.py::TestLogin::()::test_login_success[login_data0]",
+  "testcases/test_login.py::TestLogin::()::test_login_success[login_data1]",
+  "testcases/test_searchschoolroll.py::TestSearchSchoolRoll::()::test_schoolroll[querysearchschoolroll0-search_data0]"
+]
