@@ -1,0 +1,25 @@
+Thu, 20 Dec 2018 17:30:37-INFO-conftest.py-login_driver-[ line:15-=====用例前置：初始化浏览器会话，登陆教务管理系统=======
+Thu, 20 Dec 2018 17:30:48-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：txtUserName，开始等待时间：2018-12-20 17:30:47.993414，等待结束时间2018-12-20 17:30:48.171424，等待时间间隔：86399
+Thu, 20 Dec 2018 17:30:48-INFO-basepage.py-send_keys_element-[ line:259-执行元素输入操作。
+Thu, 20 Dec 2018 17:30:48-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Thu, 20 Dec 2018 17:30:48-INFO-basepage.py-send_keys_element-[ line:259-执行元素输入操作。
+Thu, 20 Dec 2018 17:30:48-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Thu, 20 Dec 2018 17:30:49-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
+Thu, 20 Dec 2018 17:30:49-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Thu, 20 Dec 2018 17:30:51-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：.logo-mini>img，开始等待时间：2018-12-20 17:30:50.607563，等待结束时间2018-12-20 17:30:51.727627，等待时间间隔：86398
+Thu, 20 Dec 2018 17:30:51-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
+Thu, 20 Dec 2018 17:30:51-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Thu, 20 Dec 2018 17:30:52-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：#vuewrap>aside>div>section>ul>li:nth-child(9)>a，开始等待时间：2018-12-20 17:30:52.148651，等待结束时间2018-12-20 17:30:52.512672，等待时间间隔：86399
+Thu, 20 Dec 2018 17:30:52-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
+Thu, 20 Dec 2018 17:30:52-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Thu, 20 Dec 2018 17:30:53-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：div.listwrap>div:nth-child(1)>ul>li:nth-child(1)>a，开始等待时间：2018-12-20 17:30:52.799689，等待结束时间2018-12-20 17:30:53.015701，等待时间间隔：86399
+Thu, 20 Dec 2018 17:30:53-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
+Thu, 20 Dec 2018 17:30:53-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Thu, 20 Dec 2018 17:30:53-INFO-basepage.py-switch_iframe_byname-[ line:82-通过iframe的名字{0}查找iframe
+Thu, 20 Dec 2018 17:30:53-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：dlstSemester，开始等待时间：2018-12-20 17:30:53.596734，等待结束时间2018-12-20 17:30:53.699740，等待时间间隔：86399
+Thu, 20 Dec 2018 17:30:53-INFO-basepage.py-select_element-[ line:277-下拉选择元素操作。
+Thu, 20 Dec 2018 17:30:53-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Thu, 20 Dec 2018 17:30:54-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：dllLearningSpace，开始等待时间：2018-12-20 17:30:53.981756，等待结束时间2018-12-20 17:30:54.094763，等待时间间隔：86399
+Thu, 20 Dec 2018 17:30:54-INFO-basepage.py-select_element-[ line:277-下拉选择元素操作。
+Thu, 20 Dec 2018 17:30:54-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Thu, 20 Dec 2018 17:30:54-INFO-conftest.py-login_driver-[ line:24-=====用例后置：关闭浏览器会话,清理环境=======

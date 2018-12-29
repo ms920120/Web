@@ -1,4 +1,5 @@
 [
+  "testcases/createteachtask_test.py::TestCreateTeachTask::()::test_createteachtask[taskdata0]",
   "testcases/test_addschoolroll.py::TestAddSchoolRoll::()::test_saveaddstudent[inputschoolroll0]",
   "testcases/test_addschoolroll.py::TestAddSchoolRoll::()::test_saveaddstudent[inputschoolroll1]",
   "testcases/test_addschoolroll.py::TestAddSchoolRoll::()::test_submitaddstudent",

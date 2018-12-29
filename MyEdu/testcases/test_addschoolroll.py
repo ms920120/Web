@@ -6,7 +6,7 @@ from pageobjects.addschoolroll_page import AddSchoolRoll
 from pageobjects.main_page import MainPage
 from testdatas import addschoolroll_data as AD
 class TestAddSchoolRoll:
-    @pytest.mark.smoke
+    #@pytest.mark.smoke
     @pytest.mark.usefixtures("login_driver")
     #创建学籍参数化需要添加的数据,菜单数据，断言数据
     @pytest.mark.parametrize("inputschoolroll",AD.input_addschoolrolldata)

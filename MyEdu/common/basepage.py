@@ -142,6 +142,31 @@ class BasePage:
             logging.info("执行元素点击事件出现异常。")
             self._screenshort(model)
             raise
+    #复选框处理
+    def decide_element(self,locator,by=By.XPATH,model="model"):
+        """
+
+        :param locator: 定位表达式
+        :param by: 定位的方式
+        :param model: 模块
+        :return:
+        """
+        logging.info("判断复选框是否选中操作")
+        try:
+            decide=self.find_elements(locator,by,model)
+            for i in decide:
+                i_select=i.is_selected()
+                print(i_select)
+                print("aaaaaaaa")
+                if i_select==False:
+                    print("bbbbbbbb")
+                    self.i.click()
+                    print("cccccccc")
+        except:
+            logging.info("执行复选框勾选元素出现异常。")
+            self._screenshort(model)
+            raise
+
     #获取元素属性
     def get_attribute(self,locator,attr_name,by=By.XPATH,model="model",index=None):
         logging.info("获取元素属性操作。")
