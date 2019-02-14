@@ -5,7 +5,7 @@ from pageobjects.createteachtask_page import CreateTeachTask
 from pageobjects.main_page import MainPage
 from testdatas import createteachtask_data as TD
 class TestCreateTeachTask:
-    @pytest.mark.smoke
+    #@pytest.mark.smoke
     #使用夹具进行用例的准备和清理工作
     @pytest.mark.usefixtures("login_driver")
     #参数化测试用例的数据

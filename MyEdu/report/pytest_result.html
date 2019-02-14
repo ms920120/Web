@@ -235,7 +235,7 @@ function filter_table(elem) {
 }
 </script>
     <h1>pytest_result.html</h1>
-    <p>Report generated on 20-Dec-2018 at 17:40:26 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
+    <p>Report generated on 14-Feb-2019 at 10:51:01 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -243,19 +243,19 @@ function filter_table(elem) {
         <td>C:\Program Files\Java\jdk1.8.0_102</td></tr>
       <tr>
         <td>Packages</td>
-        <td>{&apos;pytest&apos;: &apos;3.8.0&apos;, &apos;py&apos;: &apos;1.6.0&apos;, &apos;pluggy&apos;: &apos;0.7.1&apos;}</td></tr>
+        <td>{&apos;py&apos;: &apos;1.6.0&apos;, &apos;pytest&apos;: &apos;3.8.0&apos;, &apos;pluggy&apos;: &apos;0.7.1&apos;}</td></tr>
       <tr>
         <td>Platform</td>
         <td>Windows-7-6.1.7600-SP0</td></tr>
       <tr>
         <td>Plugins</td>
-        <td>{&apos;html&apos;: &apos;1.19.0&apos;, &apos;metadata&apos;: &apos;1.7.0&apos;}</td></tr>
+        <td>{&apos;metadata&apos;: &apos;1.7.0&apos;, &apos;allure-adaptor&apos;: &apos;1.7.10&apos;, &apos;html&apos;: &apos;1.19.0&apos;}</td></tr>
       <tr>
         <td>Python</td>
         <td>3.4.4</td></tr></table>
     <h2>Summary</h2>
-    <p>1 tests ran in 27.71 seconds. </p>
-    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">0 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">1 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <p>2 tests ran in 122.51 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">0 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">2 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
       <thead id="results-table-head">
@@ -269,87 +269,58 @@ function filter_table(elem) {
       <tbody class="failed results-table-row">
         <tr>
           <td class="col-result">Failed</td>
-          <td class="col-name">testcases/createteachtask_test.py::TestCreateTeachTask::()::test_createteachtask[taskdata0]</td>
-          <td class="col-duration">4.77</td>
+          <td class="col-name">testcases/test_login.py::TestLogin::()::test_login_success[login_data0]</td>
+          <td class="col-duration">20.48</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">self = &lt;testcases.createteachtask_test.TestCreateTeachTask object at 0x00000000043CCD30&gt;<br/>login_driver = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session=&quot;a95c86df17440caa5d8ea12de4987935&quot;)&gt;<br/>taskdata = {&#x27;confirmtext&#x27;: &#x27;教学任务创建成功&#x27;, &#x27;firstmenu&#x27;: &#x27;#vuewrap&gt;aside&gt;div&gt;section&gt;ul&gt;li:nth-child(9)&gt;a&#x27;, &#x27;lastmenu&#x27;: &#x27;div.listwrap&gt;div:nth-child(1)&gt;ul&gt;li:nth-child(1)&gt;a&#x27;, &#x27;learningspace&#x27;: &#x27;1&#x27;, ...}<br/><br/>    @pytest.mark.smoke<br/>    #使用夹具进行用例的准备和清理工作<br/>    @pytest.mark.usefixtures(&quot;login_driver&quot;)<br/>    #参数化测试用例的数据<br/>    @pytest.mark.parametrize(&quot;taskdata&quot;,TD.teachtask)<br/>    def test_createteachtask(self,login_driver,taskdata):<br/>        MainPage(login_driver).click_left(taskdata[&quot;left&quot;])<br/>        MainPage(login_driver).click_firstmenu(taskdata[&quot;firstmenu&quot;])<br/>        MainPage(login_driver).click_lastmenu(taskdata[&quot;lastmenu&quot;])<br/>        MainPage(login_driver).iframe_into()<br/>        print(111111111)<br/>        CreateTeachTask(login_driver).select_semester(taskdata[&quot;semester&quot;])<br/>        print(222222222)<br/>        CreateTeachTask(login_driver).select_learningspace(taskdata[&quot;learningspace&quot;])<br/>        CreateTeachTask(login_driver).chekcbox_elements()<br/>        CreateTeachTask(login_driver).click_btn()<br/>&gt;       assert CreateTeachTask(login_driver).confirm_text==taskdata[&quot;confirmtext&quot;]<br/><span class="error">E       assert &quot;//div[contai...xt(),&#x27;创建成功&#x27;)]&quot; == &#x27;教学任务创建成功&#x27;</span><br/><span class="error">E         - //div[contains(text(),&#x27;创建成功&#x27;)]</span><br/><span class="error">E         + 教学任务创建成功</span><br/><br/>testcases\createteachtask_test.py:24: AssertionError<br/>---------------------------- Captured stderr setup -----------------------------<br/>Thu, 20 Dec 2018 17:39:58-INFO-conftest.py-login_driver-[ line:15-=====用例前置：初始化浏览器会话，登陆教务管理系统=======
-Thu, 20 Dec 2018 17:40:16-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：txtUserName，开始等待时间：2018-12-20 17:40:16.385924，等待结束时间2018-12-20 17:40:16.500930，等待时间间隔：86399
-Thu, 20 Dec 2018 17:40:16-INFO-basepage.py-send_keys_element-[ line:262-执行元素输入操作。
-Thu, 20 Dec 2018 17:40:16-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
-Thu, 20 Dec 2018 17:40:16-INFO-basepage.py-send_keys_element-[ line:262-执行元素输入操作。
-Thu, 20 Dec 2018 17:40:16-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
-Thu, 20 Dec 2018 17:40:17-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
-Thu, 20 Dec 2018 17:40:17-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
------------------------------- Captured log setup ------------------------------<br/>conftest.py                 15 INFO     =====用例前置：初始化浏览器会话，登陆教务管理系统=======
-basepage.py                 33 INFO     等待元素可见：txtUserName，开始等待时间：2018-12-20 17:40:16.385924，等待结束时间2018-12-20 17:40:16.500930，等待时间间隔：86399
-basepage.py                262 INFO     执行元素输入操作。
-basepage.py                107 INFO     通过{0}方式，查找元素{1}。
-basepage.py                262 INFO     执行元素输入操作。
-basepage.py                107 INFO     通过{0}方式，查找元素{1}。
-basepage.py                138 INFO     执行元素点击操作。
-basepage.py                107 INFO     通过{0}方式，查找元素{1}。----------------------------- Captured stdout call -----------------------------<br/>111111111
-222222222
-True
-aaaaaaaa
-True
-aaaaaaaa
-True
-aaaaaaaa
-True
-aaaaaaaa
-True
-aaaaaaaa
-True
-aaaaaaaa
-True
-aaaaaaaa
-True
-aaaaaaaa
-True
-aaaaaaaa
------------------------------ Captured stderr call -----------------------------<br/>Thu, 20 Dec 2018 17:40:19-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：.logo-mini&gt;img，开始等待时间：2018-12-20 17:40:18.278032，等待结束时间2018-12-20 17:40:19.144082，等待时间间隔：86399
-Thu, 20 Dec 2018 17:40:19-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
-Thu, 20 Dec 2018 17:40:19-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
-Thu, 20 Dec 2018 17:40:19-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：#vuewrap&gt;aside&gt;div&gt;section&gt;ul&gt;li:nth-child(9)&gt;a，开始等待时间：2018-12-20 17:40:19.427098，等待结束时间2018-12-20 17:40:19.773118，等待时间间隔：86399
-Thu, 20 Dec 2018 17:40:19-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
-Thu, 20 Dec 2018 17:40:19-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
-Thu, 20 Dec 2018 17:40:20-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：div.listwrap&gt;div:nth-child(1)&gt;ul&gt;li:nth-child(1)&gt;a，开始等待时间：2018-12-20 17:40:20.070135，等待结束时间2018-12-20 17:40:20.234144，等待时间间隔：86399
-Thu, 20 Dec 2018 17:40:20-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
-Thu, 20 Dec 2018 17:40:20-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
-Thu, 20 Dec 2018 17:40:20-INFO-basepage.py-switch_iframe_byname-[ line:82-通过iframe的名字{0}查找iframe
-Thu, 20 Dec 2018 17:40:21-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：dlstSemester，开始等待时间：2018-12-20 17:40:20.530161，等待结束时间2018-12-20 17:40:21.173198，等待时间间隔：86399
-Thu, 20 Dec 2018 17:40:21-INFO-basepage.py-select_element-[ line:280-下拉选择元素操作。
-Thu, 20 Dec 2018 17:40:21-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
-Thu, 20 Dec 2018 17:40:21-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：dllLearningSpace，开始等待时间：2018-12-20 17:40:21.419212，等待结束时间2018-12-20 17:40:21.509217，等待时间间隔：86399
-Thu, 20 Dec 2018 17:40:21-INFO-basepage.py-select_element-[ line:280-下拉选择元素操作。
-Thu, 20 Dec 2018 17:40:21-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
-Thu, 20 Dec 2018 17:40:21-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：//input[@type=&#x27;checkbox&#x27;]，开始等待时间：2018-12-20 17:40:21.775232，等待结束时间2018-12-20 17:40:21.975244，等待时间间隔：86399
-Thu, 20 Dec 2018 17:40:21-INFO-basepage.py-decide_element-[ line:154-判断复选框是否选中操作
-Thu, 20 Dec 2018 17:40:21-INFO-basepage.py-find_elements-[ line:122-通过xpath方式查找符合的多个元素//input[@type=&#x27;checkbox&#x27;]
-Thu, 20 Dec 2018 17:40:22-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：btnNext，开始等待时间：2018-12-20 17:40:22.465272，等待结束时间2018-12-20 17:40:22.633281，等待时间间隔：86399
-Thu, 20 Dec 2018 17:40:22-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
-Thu, 20 Dec 2018 17:40:22-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
------------------------------- Captured log call -------------------------------<br/>basepage.py                 33 INFO     等待元素可见：.logo-mini&gt;img，开始等待时间：2018-12-20 17:40:18.278032，等待结束时间2018-12-20 17:40:19.144082，等待时间间隔：86399
-basepage.py                138 INFO     执行元素点击操作。
-basepage.py                107 INFO     通过{0}方式，查找元素{1}。
-basepage.py                 33 INFO     等待元素可见：#vuewrap&gt;aside&gt;div&gt;section&gt;ul&gt;li:nth-child(9)&gt;a，开始等待时间：2018-12-20 17:40:19.427098，等待结束时间2018-12-20 17:40:19.773118，等待时间间隔：86399
-basepage.py                138 INFO     执行元素点击操作。
-basepage.py                107 INFO     通过{0}方式，查找元素{1}。
-basepage.py                 33 INFO     等待元素可见：div.listwrap&gt;div:nth-child(1)&gt;ul&gt;li:nth-child(1)&gt;a，开始等待时间：2018-12-20 17:40:20.070135，等待结束时间2018-12-20 17:40:20.234144，等待时间间隔：86399
-basepage.py                138 INFO     执行元素点击操作。
-basepage.py                107 INFO     通过{0}方式，查找元素{1}。
-basepage.py                 82 INFO     通过iframe的名字{0}查找iframe
-basepage.py                 33 INFO     等待元素可见：dlstSemester，开始等待时间：2018-12-20 17:40:20.530161，等待结束时间2018-12-20 17:40:21.173198，等待时间间隔：86399
-basepage.py                280 INFO     下拉选择元素操作。
-basepage.py                107 INFO     通过{0}方式，查找元素{1}。
-basepage.py                 33 INFO     等待元素可见：dllLearningSpace，开始等待时间：2018-12-20 17:40:21.419212，等待结束时间2018-12-20 17:40:21.509217，等待时间间隔：86399
-basepage.py                280 INFO     下拉选择元素操作。
-basepage.py                107 INFO     通过{0}方式，查找元素{1}。
-basepage.py                 33 INFO     等待元素可见：//input[@type=&#x27;checkbox&#x27;]，开始等待时间：2018-12-20 17:40:21.775232，等待结束时间2018-12-20 17:40:21.975244，等待时间间隔：86399
-basepage.py                154 INFO     判断复选框是否选中操作
-basepage.py                122 INFO     通过xpath方式查找符合的多个元素//input[@type=&#x27;checkbox&#x27;]
-basepage.py                 33 INFO     等待元素可见：btnNext，开始等待时间：2018-12-20 17:40:22.465272，等待结束时间2018-12-20 17:40:22.633281，等待时间间隔：86399
-basepage.py                138 INFO     执行元素点击操作。
-basepage.py                107 INFO     通过{0}方式，查找元素{1}。</div></td></tr></tbody></table></body></html>
+            <div class="log">self = &lt;testcases.test_login.TestLogin object at 0x0000000004447748&gt;<br/>nologin_driver = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session=&quot;22044a88a857880700f890e97873189b&quot;)&gt;<br/>login_data = {&#x27;check_url&#x27;: &#x27;http://211.103.188.27:8077/Navigation/main.aspx&#x27;, &#x27;passwd&#x27;: &#x27;zbyw@zbyw&#x27;, &#x27;user&#x27;: &#x27;admin&#x27;}<br/><br/>    @pytest.mark.smoke<br/>    @pytest.mark.usefixtures(&quot;nologin_driver&quot;)<br/>    @pytest.mark.parametrize(&quot;login_data&quot;,LD.login_data)<br/>    def test_login_success(self, nologin_driver,login_data):<br/>        logging.info(&quot;*********登陆用例：正常场景：使用正确的用户名和密码登陆*********&quot;)<br/>&gt;       LoginPage(nologin_driver).login_page(login_data[&quot;user&quot;], login_data[&quot;passwd&quot;])<br/><br/>testcases\test_login.py:14: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _<br/>pageobjects\login_page.py:20: in login_page<br/>    self.wait_elementvisibility(self.user_input, by=By.ID, model=name)<br/>common\basepage.py:30: in wait_elementvisibility<br/>    WebDriverWait(self.driver,wait,requence).until(EC.visibility_of_element_located((by,locator)))<br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _<br/><br/>self = &lt;selenium.webdriver.support.wait.WebDriverWait (session=&quot;22044a88a857880700f890e97873189b&quot;)&gt;<br/>method = &lt;selenium.webdriver.support.expected_conditions.visibility_of_element_located object at 0x0000000004469EB8&gt;<br/>message = &#x27;&#x27;<br/><br/>    def until(self, method, message=&#x27;&#x27;):<br/>        &quot;&quot;&quot;Calls the method provided with the driver as an argument until the \<br/>            return value is not False.&quot;&quot;&quot;<br/>        screen = None<br/>        stacktrace = None<br/>    <br/>        end_time = time.time() + self._timeout<br/>        while True:<br/>            try:<br/>                value = method(self._driver)<br/>                if value:<br/>                    return value<br/>            except self._ignored_exceptions as exc:<br/>                screen = getattr(exc, &#x27;screen&#x27;, None)<br/>                stacktrace = getattr(exc, &#x27;stacktrace&#x27;, None)<br/>            time.sleep(self._poll)<br/>            if time.time() &gt; end_time:<br/>                break<br/>&gt;       raise TimeoutException(message, screen, stacktrace)<br/><span class="error">E       selenium.common.exceptions.TimeoutException: Message:</span><br/><br/>C:\Python34\lib\site-packages\selenium\webdriver\support\wait.py:80: TimeoutException<br/>---------------------------- Captured stderr setup -----------------------------<br/>Thu, 14 Feb 2019 10:48:59-INFO-conftest.py-nologin_driver-[ line:32-=====用例前置：初始化浏览器会话，登陆教务管理系统=======
+------------------------------ Captured log setup ------------------------------<br/>conftest.py                 32 INFO     =====用例前置：初始化浏览器会话，登陆教务管理系统=======----------------------------- Captured stderr call -----------------------------<br/>Thu, 14 Feb 2019 10:49:43-INFO-test_login.py-test_login_success-[ line:13-*********登陆用例：正常场景：使用正确的用户名和密码登陆*********
+Thu, 14 Feb 2019 10:50:03-ERROR-basepage.py-wait_elementvisibility-[ line:35-等待元素可见异常。
+Traceback (most recent call last):
+  File &quot;E:\EduWeb\MyEdu\common\basepage.py&quot;, line 30, in wait_elementvisibility
+    WebDriverWait(self.driver,wait,requence).until(EC.visibility_of_element_located((by,locator)))
+  File &quot;C:\Python34\lib\site-packages\selenium\webdriver\support\wait.py&quot;, line 80, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+
+Thu, 14 Feb 2019 10:50:03-INFO-basepage.py-_screenshort-[ line:301-截图成功保存路径为E:\EduWeb\MyEdu\screenshot\登录页面--登录功能-2019-02-14 10-50-03.png
+------------------------------ Captured log call -------------------------------<br/>test_login.py               13 INFO     *********登陆用例：正常场景：使用正确的用户名和密码登陆*********
+basepage.py                 35 ERROR    等待元素可见异常。
+Traceback (most recent call last):
+  File &quot;E:\EduWeb\MyEdu\common\basepage.py&quot;, line 30, in wait_elementvisibility
+    WebDriverWait(self.driver,wait,requence).until(EC.visibility_of_element_located((by,locator)))
+  File &quot;C:\Python34\lib\site-packages\selenium\webdriver\support\wait.py&quot;, line 80, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+
+basepage.py                301 INFO     截图成功保存路径为E:\EduWeb\MyEdu\screenshot\登录页面--登录功能-2019-02-14 10-50-03.png</div></td></tr></tbody>
+      <tbody class="failed results-table-row">
+        <tr>
+          <td class="col-result">Failed</td>
+          <td class="col-name">testcases/test_login.py::TestLogin::()::test_login_success[login_data1]</td>
+          <td class="col-duration">20.70</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">self = &lt;testcases.test_login.TestLogin object at 0x00000000044386D8&gt;<br/>nologin_driver = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session=&quot;6128f25bbd4e15f6146691de20f0f43b&quot;)&gt;<br/>login_data = {&#x27;check_url&#x27;: &#x27;http://211.103.188.27:8077/Navigation/main.aspx&#x27;, &#x27;passwd&#x27;: &#x27;zbyw@zbyw&#x27;, &#x27;user&#x27;: &#x27;admin&#x27;}<br/><br/>    @pytest.mark.smoke<br/>    @pytest.mark.usefixtures(&quot;nologin_driver&quot;)<br/>    @pytest.mark.parametrize(&quot;login_data&quot;,LD.login_data)<br/>    def test_login_success(self, nologin_driver,login_data):<br/>        logging.info(&quot;*********登陆用例：正常场景：使用正确的用户名和密码登陆*********&quot;)<br/>&gt;       LoginPage(nologin_driver).login_page(login_data[&quot;user&quot;], login_data[&quot;passwd&quot;])<br/><br/>testcases\test_login.py:14: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _<br/>pageobjects\login_page.py:20: in login_page<br/>    self.wait_elementvisibility(self.user_input, by=By.ID, model=name)<br/>common\basepage.py:30: in wait_elementvisibility<br/>    WebDriverWait(self.driver,wait,requence).until(EC.visibility_of_element_located((by,locator)))<br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _<br/><br/>self = &lt;selenium.webdriver.support.wait.WebDriverWait (session=&quot;6128f25bbd4e15f6146691de20f0f43b&quot;)&gt;<br/>method = &lt;selenium.webdriver.support.expected_conditions.visibility_of_element_located object at 0x000000000484C7B8&gt;<br/>message = &#x27;&#x27;<br/><br/>    def until(self, method, message=&#x27;&#x27;):<br/>        &quot;&quot;&quot;Calls the method provided with the driver as an argument until the \<br/>            return value is not False.&quot;&quot;&quot;<br/>        screen = None<br/>        stacktrace = None<br/>    <br/>        end_time = time.time() + self._timeout<br/>        while True:<br/>            try:<br/>                value = method(self._driver)<br/>                if value:<br/>                    return value<br/>            except self._ignored_exceptions as exc:<br/>                screen = getattr(exc, &#x27;screen&#x27;, None)<br/>                stacktrace = getattr(exc, &#x27;stacktrace&#x27;, None)<br/>            time.sleep(self._poll)<br/>            if time.time() &gt; end_time:<br/>                break<br/>&gt;       raise TimeoutException(message, screen, stacktrace)<br/><span class="error">E       selenium.common.exceptions.TimeoutException: Message:</span><br/><br/>C:\Python34\lib\site-packages\selenium\webdriver\support\wait.py:80: TimeoutException<br/>---------------------------- Captured stderr setup -----------------------------<br/>Thu, 14 Feb 2019 10:50:07-INFO-conftest.py-nologin_driver-[ line:32-=====用例前置：初始化浏览器会话，登陆教务管理系统=======
+------------------------------ Captured log setup ------------------------------<br/>conftest.py                 32 INFO     =====用例前置：初始化浏览器会话，登陆教务管理系统=======----------------------------- Captured stderr call -----------------------------<br/>Thu, 14 Feb 2019 10:50:36-INFO-test_login.py-test_login_success-[ line:13-*********登陆用例：正常场景：使用正确的用户名和密码登陆*********
+Thu, 14 Feb 2019 10:50:57-ERROR-basepage.py-wait_elementvisibility-[ line:35-等待元素可见异常。
+Traceback (most recent call last):
+  File &quot;E:\EduWeb\MyEdu\common\basepage.py&quot;, line 30, in wait_elementvisibility
+    WebDriverWait(self.driver,wait,requence).until(EC.visibility_of_element_located((by,locator)))
+  File &quot;C:\Python34\lib\site-packages\selenium\webdriver\support\wait.py&quot;, line 80, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+
+Thu, 14 Feb 2019 10:50:57-INFO-basepage.py-_screenshort-[ line:301-截图成功保存路径为E:\EduWeb\MyEdu\screenshot\登录页面--登录功能-2019-02-14 10-50-57.png
+------------------------------ Captured log call -------------------------------<br/>test_login.py               13 INFO     *********登陆用例：正常场景：使用正确的用户名和密码登陆*********
+basepage.py                 35 ERROR    等待元素可见异常。
+Traceback (most recent call last):
+  File &quot;E:\EduWeb\MyEdu\common\basepage.py&quot;, line 30, in wait_elementvisibility
+    WebDriverWait(self.driver,wait,requence).until(EC.visibility_of_element_located((by,locator)))
+  File &quot;C:\Python34\lib\site-packages\selenium\webdriver\support\wait.py&quot;, line 80, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+
+basepage.py                301 INFO     截图成功保存路径为E:\EduWeb\MyEdu\screenshot\登录页面--登录功能-2019-02-14 10-50-57.png</div></td></tr></tbody></table></body></html>

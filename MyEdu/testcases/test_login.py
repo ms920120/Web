@@ -1,12 +1,17 @@
 import logging
 import pytest
 import time
+import allure
 from pageobjects.login_page import LoginPage
 from testdatas import common_data as CD
 from testdatas import login_data as LD
 from common import log
+#allure.feature('定义被测的功能模块')
+@allure.feature('登录功能')
 class TestLogin:
-    #@pytest.mark.smoke
+    #allure.story('定义用户的登录场景')
+    @allure.story('正常登录')
+    @pytest.mark.smoke
     @pytest.mark.usefixtures("nologin_driver")
     @pytest.mark.parametrize("login_data",LD.login_data)
     def test_login_success(self, nologin_driver,login_data):

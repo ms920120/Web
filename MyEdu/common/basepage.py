@@ -303,9 +303,9 @@ class BasePage:
     # 是否要在多个元素中选择一个元素来操作。应用于查找多个元素的基础。
     def _get_element(self,locator,by=By.XPATH,model="model",index=None):
         """
-        :param locator:
-        :param by:
-        :param model:
+        :param locator:元素定位表达式
+        :param by:元素定位的方式
+        :param model:模块名
         :param index:index=None则选择一个元素，index!=None则选择多个元素若index=-1或index<0则随机选择多个元素
         :return:
         """
@@ -316,9 +316,9 @@ class BasePage:
     #在查找的元素中随机选择元素还是按照多个元素的下标查找
     def _select_ele_from_elements(self,locator,by=By.XPATH,model="model",index=-1):
         """
-        :param locator:
-        :param by:
-        :param model:
+        :param locator:元素定位表达式
+        :param by:元素定位的方式
+        :param model:模块名
         :param index:index=-1或者index<0则随机选择一个，index>0则按照下标选择元素
         :return:
         """
