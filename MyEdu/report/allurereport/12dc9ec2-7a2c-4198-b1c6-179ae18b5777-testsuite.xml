@@ -1,0 +1,40 @@
+<ns0:test-suite xmlns:ns0="urn:model.allure.qatools.yandex.ru" start="1550126441756" stop="1550126514938">
+  <name>testcases</name>
+  <labels/>
+  <test-cases>
+    <test-case start="1550126441756" status="passed" stop="1550126499264">
+      <name>test_login.TestLogin.test_login_success[login_data0]</name>
+      <attachments>
+        <attachment source="52a31c93-9fd5-43f6-93ac-87e82d42c085-attachment.txt" title="Captured stderr setup" type="text/plain"/>
+        <attachment source="bd3cb675-38a4-4ec9-9b00-431fecea679d-attachment.txt" title="Captured stderr call" type="text/plain"/>
+        <attachment source="fbe36909-2b0e-4b22-8667-d62b6ff0b7b6-attachment.txt" title="Captured log call" type="text/plain"/>
+        <attachment source="3773ed48-2eaf-4d36-b9fa-6a7dbcc2ff80-attachment.txt" title="Captured log setup" type="text/plain"/>
+      </attachments>
+      <labels>
+        <label name="severity" value="normal"/>
+        <label name="thread" value="11072-MainThread"/>
+        <label name="host" value="sanyth-PC"/>
+        <label name="framework" value="pytest"/>
+        <label name="language" value="cpython3"/>
+      </labels>
+      <steps/>
+    </test-case>
+    <test-case start="1550126502632" status="passed" stop="1550126514938">
+      <name>test_login.TestLogin.test_login_success[login_data1]</name>
+      <attachments>
+        <attachment source="ece8e300-0f3c-4a35-9086-eba9dff0309c-attachment.txt" title="Captured stderr setup" type="text/plain"/>
+        <attachment source="c0c6b373-c91d-4735-870a-a74e8f3585a1-attachment.txt" title="Captured stderr call" type="text/plain"/>
+        <attachment source="9b6584ab-dd64-4631-8d7d-4ba067b18606-attachment.txt" title="Captured log call" type="text/plain"/>
+        <attachment source="cb27dfd7-d6ac-47a3-99ca-b0106b215770-attachment.txt" title="Captured log setup" type="text/plain"/>
+      </attachments>
+      <labels>
+        <label name="severity" value="normal"/>
+        <label name="thread" value="11072-MainThread"/>
+        <label name="host" value="sanyth-PC"/>
+        <label name="framework" value="pytest"/>
+        <label name="language" value="cpython3"/>
+      </labels>
+      <steps/>
+    </test-case>
+  </test-cases>
+</ns0:test-suite>

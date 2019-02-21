@@ -1,0 +1,8 @@
+test_login.py               18 INFO     *********登陆用例：正常场景：使用正确的用户名和密码登陆*********
+basepage.py                 33 INFO     等待元素可见：txtUserName，开始等待时间：2019-02-14 14:41:34.035578，等待结束时间2019-02-14 14:41:34.298593，等待时间间隔：86399
+basepage.py                262 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                262 INFO     执行元素输入操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。
+basepage.py                138 INFO     执行元素点击操作。
+basepage.py                107 INFO     通过{0}方式，查找元素{1}。

@@ -1,5 +1,3 @@
 {
-  "testcases/createteachtask_test.py::TestCreateTeachTask::()::test_createteachtask[taskdata0]": true,
-  "testcases/test_login.py::TestLogin::()::test_login_success[login_data0]": true,
-  "testcases/test_login.py::TestLogin::()::test_login_success[login_data1]": true
+  "testcases/createteachtask_test.py::TestCreateTeachTask::()::test_createteachtask[taskdata0]": true
 }

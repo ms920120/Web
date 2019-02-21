@@ -1,0 +1,8 @@
+Thu, 14 Feb 2019 14:41:53-INFO-test_login.py-test_login_success-[ line:18-*********登陆用例：正常场景：使用正确的用户名和密码登陆*********
+Thu, 14 Feb 2019 14:41:53-INFO-basepage.py-wait_elementvisibility-[ line:33-等待元素可见：txtUserName，开始等待时间：2019-02-14 14:41:53.032449，等待结束时间2019-02-14 14:41:53.103453，等待时间间隔：86399
+Thu, 14 Feb 2019 14:41:53-INFO-basepage.py-send_keys_element-[ line:262-执行元素输入操作。
+Thu, 14 Feb 2019 14:41:53-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Thu, 14 Feb 2019 14:41:53-INFO-basepage.py-send_keys_element-[ line:262-执行元素输入操作。
+Thu, 14 Feb 2019 14:41:53-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。
+Thu, 14 Feb 2019 14:41:53-INFO-basepage.py-click_element-[ line:138-执行元素点击操作。
+Thu, 14 Feb 2019 14:41:53-INFO-basepage.py-find_element-[ line:107-通过{0}方式，查找元素{1}。

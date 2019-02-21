@@ -186,7 +186,16 @@ class BasePage:
             logging.exception("移除元素属性出现异常。")
             self._screenshort(model)
             raise
-        pass
+    #通过js原生使用jquery选择器定位方式定位元素移除属性
+    def js_queryremove_attribute(self, locator, attrname, by=By.ID, model="model"):
+        logging.info("移除元素属性操作")
+        try:
+            self.driver.execute_script("document.querySelector('{0}').removeAttribute('{1}')".format(locator, attrname))
+
+        except:
+            logging.exception("移除元素属性出现异常。")
+            self._screenshort(model)
+            raise
     #获得元素文本
     def get_text(self,locator,by=By.XPATH,model="model",index=None):
         logging.info("测试{0}，通过{1}元素定位方式，定位{2}元素".format(model, by, locator))
@@ -243,7 +252,7 @@ class BasePage:
     def scrollintoview(self,locator,by=By.XPATH,model="model",index=None):
         logging.info("通过操作滚动条将元素展示在可见区域，在{0}，通过{1}定位方式，将{1}元素滚动到可见区域操作。".format(model, by, locator))
         try:
-            self.driver.execute_script("Arguments[0].scrollIntoView",self._get_element(locator,by,model,index))
+            self.driver.execute_script("Arguments[0].scrollIntoView();",self._get_element(locator,by,model,index))
         except:
             logging.exception("将元素滚动到可见区域出现异常。")
             self._screenshort(model)

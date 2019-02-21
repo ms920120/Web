@@ -1,9 +1,11 @@
 # 定义pytest的fixture
 import pytest
+import logging
+import allure
 from selenium import webdriver
 from testdatas import common_data as CD
 from pageobjects.login_page import LoginPage
-import logging
+
 
 
 # 定义一个函数，并在这个函数当中，实现用例的准备工作和清理工作。
@@ -20,6 +22,7 @@ def login_driver():
     # yield 准备工作和清理工作的分限线。上面是准备工作。下面的是清理工作
     # 有返回值的情况下，返回值写在yield后面。
     #driver.status = True
+
     yield driver
     logging.info("=====用例后置：关闭浏览器会话,清理环境=======")
     driver.quit()
