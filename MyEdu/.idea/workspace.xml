@@ -11,35 +11,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="createteachtask_test.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/testcases/createteachtask_test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="8" column="16" lean-forward="false" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="login_page.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pageobjects/login_page.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="23" column="20" lean-forward="false" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
-              <folding>
-                <element signature="e#0#36#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="7" column="46" lean-forward="false" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="46" />
+            <state relative-caret-position="18">
+              <caret line="1" column="8" lean-forward="false" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://C:/Python34/Lib/site-packages/_pytest/config/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="33" column="7" lean-forward="false" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pytest.py" pinned="false" current-in-tab="false">
+        <entry file="file://C:/Python34/Lib/site-packages/pytest.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="23" lean-forward="false" selection-start-line="0" selection-start-column="2" selection-end-line="0" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -57,47 +53,38 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_login.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/testcases/test_login.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="12" column="25" lean-forward="false" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="basepage.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="basepage.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/common/basepage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="254" column="114" lean-forward="true" selection-start-line="254" selection-start-column="12" selection-end-line="254" selection-end-column="114" />
+            <state relative-caret-position="468">
+              <caret line="29" column="105" lean-forward="false" selection-start-line="29" selection-start-column="12" selection-end-line="29" selection-end-column="105" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
                 <element signature="e#3368#3551#0" expanded="false" />
                 <element signature="e#3609#3648#0" expanded="false" />
                 <element signature="e#3731#4057#0" expanded="false" />
                 <element signature="e#4578#4924#0" expanded="false" />
-                <element signature="e#5003#5624#0" expanded="false" />
-                <element signature="e#5724#5962#0" expanded="false" />
-                <element signature="e#6829#7097#0" expanded="false" />
-                <element signature="e#7488#7492#0" expanded="false" />
-                <element signature="e#7497#7512#0" expanded="false" />
-                <element signature="e#7696#8648#0" expanded="false" />
                 <element signature="e#9195#9535#0" expanded="false" />
-                <element signature="e#9984#10812#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_addschoolroll.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/testcases/test_addschoolroll.py">
+      <file leaf-file-name="addschoolroll_data.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/testdatas/addschoolroll_data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="8" column="5" lean-forward="false" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+            <state relative-caret-position="774">
+              <caret line="43" column="90" lean-forward="true" selection-start-line="42" selection-start-column="26" selection-end-line="43" selection-end-column="90" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="select.py" pinned="false" current-in-tab="false">
+        <entry file="file://C:/Python34/Lib/site-packages/selenium/webdriver/support/select.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1854">
+              <caret line="104" column="30" lean-forward="false" selection-start-line="104" selection-start-column="8" selection-end-line="104" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -106,29 +93,33 @@
       <file leaf-file-name="addschoolroll_page.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pageobjects/addschoolroll_page.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
+            <state relative-caret-position="4086">
               <caret line="229" column="18" lean-forward="false" selection-start-line="229" selection-start-column="18" selection-end-line="229" selection-end-column="18" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main_page.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pageobjects/main_page.py">
+      <file leaf-file-name="test_addschoolroll.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/testcases/test_addschoolroll.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="846">
-              <caret line="48" column="39" lean-forward="false" selection-start-line="48" selection-start-column="39" selection-end-line="48" selection-end-column="39" />
-              <folding />
+            <state relative-caret-position="-1314">
+              <caret line="8" column="5" lean-forward="false" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="login_data.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/testdatas/login_data.py">
+      <file leaf-file-name="test_searchschoolroll.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/testcases/test_searchschoolroll.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="54">
+              <caret line="9" column="5" lean-forward="false" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -167,7 +158,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="width" value="1456" />
     <option name="height" value="876" />
   </component>
@@ -186,7 +177,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -194,35 +184,11 @@
               <item name="MyEdu" type="b2602c69:ProjectViewProjectNode" />
               <item name="MyEdu" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="MyEdu" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MyEdu" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MyEdu" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MyEdu" type="462c0819:PsiDirectoryNode" />
-              <item name="pageobjects" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MyEdu" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MyEdu" type="462c0819:PsiDirectoryNode" />
-              <item name="report" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MyEdu" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MyEdu" type="462c0819:PsiDirectoryNode" />
-              <item name="testcases" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MyEdu" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MyEdu" type="462c0819:PsiDirectoryNode" />
-              <item name="testdatas" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -279,19 +245,19 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1456" height="876" extended-state="0" />
+    <frame x="0" y="0" width="1456" height="876" extended-state="1" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21418338" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23925501" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.47715053" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.47715053" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39939025" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -339,20 +305,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/testdatas/createteachtask_data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="28" lean-forward="true" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testcases/test_searchschoolroll.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="9" column="5" lean-forward="false" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pageobjects/addschoolroll_page.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4752">
@@ -370,14 +322,7 @@
             <element signature="e#3609#3648#0" expanded="false" />
             <element signature="e#3731#4057#0" expanded="false" />
             <element signature="e#4578#4924#0" expanded="false" />
-            <element signature="e#5003#5624#0" expanded="false" />
-            <element signature="e#5724#5962#0" expanded="false" />
-            <element signature="e#6829#7097#0" expanded="false" />
-            <element signature="e#7488#7492#0" expanded="false" />
-            <element signature="e#7497#7512#0" expanded="false" />
-            <element signature="e#7696#8648#0" expanded="false" />
             <element signature="e#9195#9535#0" expanded="false" />
-            <element signature="e#9984#10812#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -393,9 +338,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
           <caret line="21" column="57" lean-forward="false" selection-start-line="21" selection-start-column="57" selection-end-line="21" selection-end-column="57" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -403,7 +345,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="846">
           <caret line="48" column="39" lean-forward="true" selection-start-line="48" selection-start-column="39" selection-end-line="48" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -424,14 +365,7 @@
             <element signature="e#3609#3648#0" expanded="false" />
             <element signature="e#3731#4057#0" expanded="false" />
             <element signature="e#4578#4924#0" expanded="false" />
-            <element signature="e#5003#5624#0" expanded="false" />
-            <element signature="e#5724#5962#0" expanded="false" />
-            <element signature="e#6829#7097#0" expanded="false" />
-            <element signature="e#7488#7492#0" expanded="false" />
-            <element signature="e#7497#7512#0" expanded="false" />
-            <element signature="e#7696#8648#0" expanded="false" />
             <element signature="e#9195#9535#0" expanded="false" />
-            <element signature="e#9984#10812#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -495,14 +429,7 @@
             <element signature="e#3609#3648#0" expanded="false" />
             <element signature="e#3731#4057#0" expanded="false" />
             <element signature="e#4578#4924#0" expanded="false" />
-            <element signature="e#5003#5624#0" expanded="false" />
-            <element signature="e#5724#5962#0" expanded="false" />
-            <element signature="e#6829#7097#0" expanded="false" />
-            <element signature="e#7488#7492#0" expanded="false" />
-            <element signature="e#7497#7512#0" expanded="false" />
-            <element signature="e#7696#8648#0" expanded="false" />
             <element signature="e#9195#9535#0" expanded="false" />
-            <element signature="e#9984#10812#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -580,14 +507,7 @@
             <element signature="e#3609#3648#0" expanded="false" />
             <element signature="e#3731#4057#0" expanded="false" />
             <element signature="e#4578#4924#0" expanded="false" />
-            <element signature="e#5003#5624#0" expanded="false" />
-            <element signature="e#5724#5962#0" expanded="false" />
-            <element signature="e#6829#7097#0" expanded="false" />
-            <element signature="e#7488#7492#0" expanded="false" />
-            <element signature="e#7497#7512#0" expanded="false" />
-            <element signature="e#7696#8648#0" expanded="false" />
             <element signature="e#9195#9535#0" expanded="false" />
-            <element signature="e#9984#10812#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -634,21 +554,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/Python34/Lib/site-packages/_pytest/config/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7002">
-          <caret line="411" column="0" lean-forward="false" selection-start-line="411" selection-start-column="0" selection-end-line="411" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/logs/web-AutoLog2018-12-19 13-50-51.log" />
-    <entry file="file://$PROJECT_DIR$/testdatas/addschoolroll_data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="43" column="90" lean-forward="true" selection-start-line="42" selection-start-column="26" selection-end-line="43" selection-end-column="90" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/common/log.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
@@ -670,23 +576,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testcases/createteachtask_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="8" column="16" lean-forward="false" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testcases/test_searchschoolroll.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="9" column="5" lean-forward="false" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Python34/Lib/site-packages/selenium/webdriver/support/expected_conditions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
@@ -698,7 +587,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="846">
           <caret line="48" column="39" lean-forward="false" selection-start-line="48" selection-start-column="39" selection-end-line="48" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -706,6 +594,47 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
           <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pageobjects/login_page.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="23" column="20" lean-forward="false" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testcases/createteachtask_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="8" column="16" lean-forward="false" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testcases/test_login.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="12" column="25" lean-forward="false" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testcases/test_searchschoolroll.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="9" column="5" lean-forward="false" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python34/Lib/site-packages/selenium/webdriver/support/select.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1854">
+          <caret line="104" column="30" lean-forward="false" selection-start-line="104" selection-start-column="8" selection-end-line="104" selection-end-column="30" />
           <folding />
         </state>
       </provider>
@@ -720,68 +649,67 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://C:/Python34/Lib/site-packages/pytest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="46" lean-forward="false" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="46" />
+        <state relative-caret-position="0">
+          <caret line="0" column="23" lean-forward="false" selection-start-line="0" selection-start-column="2" selection-end-line="0" selection-end-column="23" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pageobjects/login_page.py">
+    <entry file="file://C:/Python34/Lib/site-packages/_pytest/config/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="23" column="20" lean-forward="false" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testcases/test_login.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="12" column="25" lean-forward="false" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testcases/test_addschoolroll.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="8" column="5" lean-forward="false" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+        <state relative-caret-position="198">
+          <caret line="33" column="7" lean-forward="false" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pageobjects/addschoolroll_page.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
+        <state relative-caret-position="4086">
           <caret line="229" column="18" lean-forward="false" selection-start-line="229" selection-start-column="18" selection-end-line="229" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="8" lean-forward="false" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/common/basepage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="254" column="114" lean-forward="true" selection-start-line="254" selection-start-column="12" selection-end-line="254" selection-end-column="114" />
+        <state relative-caret-position="468">
+          <caret line="29" column="105" lean-forward="false" selection-start-line="29" selection-start-column="12" selection-end-line="29" selection-end-column="105" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#3368#3551#0" expanded="false" />
             <element signature="e#3609#3648#0" expanded="false" />
             <element signature="e#3731#4057#0" expanded="false" />
             <element signature="e#4578#4924#0" expanded="false" />
-            <element signature="e#5003#5624#0" expanded="false" />
-            <element signature="e#5724#5962#0" expanded="false" />
-            <element signature="e#6829#7097#0" expanded="false" />
-            <element signature="e#7488#7492#0" expanded="false" />
-            <element signature="e#7497#7512#0" expanded="false" />
-            <element signature="e#7696#8648#0" expanded="false" />
             <element signature="e#9195#9535#0" expanded="false" />
-            <element signature="e#9984#10812#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testdatas/addschoolroll_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="774">
+          <caret line="43" column="90" lean-forward="true" selection-start-line="42" selection-start-column="26" selection-end-line="43" selection-end-column="90" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testcases/test_addschoolroll.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1314">
+          <caret line="8" column="5" lean-forward="false" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
